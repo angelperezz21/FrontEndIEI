@@ -1,0 +1,4 @@
+//INSTALACIONES
+
+npm install ol
+npm install react-split-pane
