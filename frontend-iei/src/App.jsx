@@ -1,32 +1,64 @@
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import MapWrapper from './MapWrapper'
+import SplitPane from 'react-split-pane';
+import ComboBox from 'react-responsive-combo-box'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  const [localidad, setLocalidad] = useState('');
+  const [codigoPosta, setCodigoPosta] = useState(''); 
+  const [provincia, setProvincia] = useState('');
+  const [tipo, setTipo] = useState('');
+
+  const dataTipos = [
+    "Hola1",
+    "Hola2"
+  ];
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <div className='titulo'>
+        <h1>Buscar centros de salud</h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more dsfsd
-      </p>
+      <SplitPane split="vertical" defaultSize="45%">
+        <div className='Izquierda'>
+          <div className='grid'>
+            <label>Localidad</label>
+            <input className='inputAnyadir'
+						placeholder='Mislata'
+						onChange={(option) => setLocalidad(option.target.value)}>
+					  </input>
+
+            <label>Código Postal</label>
+            <input className='inputAnyadir'
+						placeholder='13700'
+						onChange={(option) => setCodigoPosta(option.target.value)}>
+					  </input>
+            
+            <label>Provincia</label>
+            <input className='inputAnyadir'
+						placeholder='Valencia'
+						onChange={(option) => setCodigoPosta(option.target.value)}>
+					  </input>
+
+            <label>Tipo</label>
+            <ComboBox className='comboboxAnyadir'
+									options={dataTipos}
+									enableAutocomplete
+									editable={false}
+									onSelect={(option) => setTipo(option)}
+						/>
+
+          </div>
+        </div>
+        <div className='Derecha'>
+          <div className='mapa'>
+            <MapWrapper/>
+          </div>
+        </div>
+      </SplitPane>
     </div>
   )
 }
