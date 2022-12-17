@@ -27,30 +27,37 @@ function App() {
           <div className='grid'>
             <label>Localidad</label>
             <input className='inputAnyadir'
-						placeholder='Mislata'
-						onChange={(option) => setLocalidad(option.target.value)}>
-					  </input>
+            placeholder='Mislata'
+            onChange={(option) => setLocalidad(option.target.value)}>
+            </input>
 
             <label>Código Postal</label>
             <input className='inputAnyadir'
-						placeholder='13700'
-						onChange={(option) => setCodigoPosta(option.target.value)}>
-					  </input>
+            placeholder='13700'
+            onChange={(option) => setCodigoPosta(option.target.value)}>
+            </input>
             
             <label>Provincia</label>
             <input className='inputAnyadir'
-						placeholder='Valencia'
-						onChange={(option) => setCodigoPosta(option.target.value)}>
-					  </input>
+            placeholder='Valencia'
+            onChange={(option) => setCodigoPosta(option.target.value)}>
+            </input>
 
             <label>Tipo</label>
             <ComboBox className='comboboxAnyadir'
-									options={dataTipos}
-									enableAutocomplete
-									editable={false}
-									onSelect={(option) => setTipo(option)}
-						/>
-
+                  options={dataTipos}
+                  enableAutocomplete
+                  editable={false}
+                  onSelect={(option) => setTipo(option)}
+            />
+          </div>
+          <div className='divBotones'>
+            <button>Cancelar</button>
+            <button>Buscar</button>
+          </div>
+          <div className='divResultado'>
+            <label>Resultados de la búsqueda:</label>
+            <textarea className='textArea' readOnly></textarea>
           </div>
         </div>
         <div className='Derecha'>

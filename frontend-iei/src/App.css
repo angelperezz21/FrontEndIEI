@@ -11,6 +11,21 @@
 .titulo{
   text-align: center;
 }
+
+.divBotones{
+  margin-top: 30px;
+}
+
+.divResultado{
+  margin-top: 30px;
+}
+
+.textArea{
+  width: 100%;
+  height: 160px;
+  resize: none;
+}
+
 .grid{
   display: grid;
   grid-template-columns: 120px 300px;
