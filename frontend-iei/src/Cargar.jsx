@@ -11,7 +11,7 @@ function Cargar(){
         <div>
             <div className='titulo'>
                 <h1>Carga del almacen de datos</h1>
-                <button>Búsqueda</button>
+                <button onClick={() => {window.location='./busqueda'}}>Búsqueda</button>
             </div>
             <div>
                 <label>Selecciona fuente:</label>
