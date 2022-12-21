@@ -8,12 +8,15 @@ import ComboBox from 'react-responsive-combo-box'
 
 function Cargar(){
     return(
-        <div>
+        <div className='todo'>
             <div className='titulo'>
                 <h1>Carga del almacen de datos</h1>
                 <button onClick={() => {window.location='./busqueda'}}>Búsqueda</button>
             </div>
-            <div>
+            
+            <br></br>
+
+            <div className='fuentes'>
                 <label>Selecciona fuente:</label>
                 <br></br>
                 <br></br>
@@ -22,16 +25,19 @@ function Cargar(){
                     <label><input type="checkbox" ></input> Illes Balears</label>
                     <label><input type="checkbox" ></input> Euskadi</label>
                 </div>
+                <br></br>
                 <div className='botones'>
-                    <button>Cancelar</button>
+                    <button>Borrar</button>
                     <button>Cargar</button>
                 </div>
-                <div className='divResultado'>
-                    <label>Resultados de la búsqueda:</label>
-                    <textarea className='textArea' readOnly></textarea>
+
+                <br></br>
+                
+                <label>Resultados de la búsqueda:</label>
+                <div className='divResultado2'>
+                    <textarea className='textArea2' readOnly></textarea>
                 </div>
             </div>
-            
         </div>
     );
 }

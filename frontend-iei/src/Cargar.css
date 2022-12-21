@@ -1,3 +1,14 @@
 .gridCheckBox{
     display: grid;
 }
+
+.textArea2{
+    width: 75%;
+    height: 160px;
+    resize: none;
+}
+
+.todo{
+    text-align: center;
+}
+
