@@ -1,0 +1,5 @@
+//INSTALACIONES
+
+npm install ol
+npm install react-split-pane
+npm install --save react-responsive-combo-box
