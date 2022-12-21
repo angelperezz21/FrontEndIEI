@@ -21,7 +21,7 @@ function App() {
     <div>
       <div className='titulo'>
         <h1>Buscar centros de salud</h1>
-        <button onClick={() => {}}>Cargar</button>
+        <button onClick={() => {window.location='./cargar'}}>Cargar</button>
       </div>
       <SplitPane split="vertical" defaultSize="45%">
         <div className='Izquierda'>
