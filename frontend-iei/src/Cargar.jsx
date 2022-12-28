@@ -12,6 +12,28 @@ function Cargar(){
     const[checkIB, setCheckIB] = useState(false);
     const[checkEu, setCheckEu] = useState(false);
 
+    function enviarPeticionCarga() {
+        const jsonBody =
+        {
+            ib: checkIB,
+            cv: checkCV,
+            eus: checkEu
+        };
+
+        fetch('http://localhost:8080/api/load/health-centers',
+            {
+                method: 'POST',
+                body: JSON.stringify(jsonBody)
+            })
+            .then((res)=>{return res.json()})
+            .then((data)=>{
+                console.log(data);
+                document.getElementById('text-area').value = data;
+            })
+
+    }
+
+
     return(
         <div className='todo'>
             <div className='titulo'>
@@ -33,14 +55,14 @@ function Cargar(){
                 <br></br>
                 <div className='botones'>
                     <button>Borrar</button>
-                    <button>Cargar</button>
+                    <button onClick={() => { enviarPeticionCarga() }}>Cargar</button>
                 </div>
 
                 <br></br>
                 
                 <label>Resultados de la búsqueda:</label>
                 <div className='divResultado2'>
-                    <textarea className='textArea2' readOnly></textarea>
+                    <textarea className='textArea2' readOnly id='text-area'></textarea>
                 </div>
             </div>
         </div>
