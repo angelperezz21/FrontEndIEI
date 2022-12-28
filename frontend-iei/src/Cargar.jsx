@@ -7,6 +7,11 @@ import SplitPane from 'react-split-pane';
 import ComboBox from 'react-responsive-combo-box'
 
 function Cargar(){
+
+    const[checkCV, setCheckCV] = useState(false);
+    const[checkIB, setCheckIB] = useState(false);
+    const[checkEu, setCheckEu] = useState(false);
+
     return(
         <div className='todo'>
             <div className='titulo'>
@@ -21,9 +26,9 @@ function Cargar(){
                 <br></br>
                 <br></br>
                 <div className='gridCheckBox'>
-                    <label><input type="checkbox" ></input> Comunitat Valenciana</label>
-                    <label><input type="checkbox" ></input> Illes Balears</label>
-                    <label><input type="checkbox" ></input> Euskadi</label>
+                    <label><input type="checkbox" id="chCV" onChange={() => {setCheckCV(document.getElementById("chCV").checked)}}></input> Comunitat Valenciana</label>
+                    <label><input type="checkbox" id="chIB" onChange={() => {setCheckIB(document.getElementById("chIB").checked)}}></input> Illes Balears</label>
+                    <label><input type="checkbox" id="chEu" onChange={() => {setCheckEu(document.getElementById("chEu").checked)}}></input> Euskadi</label>
                 </div>
                 <br></br>
                 <div className='botones'>
