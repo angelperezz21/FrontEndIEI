@@ -20,15 +20,18 @@ function Cargar(){
             eus: checkEu
         };
 
+        const textArea = document.getElementById('text-area');
+
+        textArea.value = 'Extrayendo centros sanitarios de las fuentes de datos...';
+
         fetch('http://localhost:8080/api/load/health-centers',
             {
                 method: 'POST',
                 body: JSON.stringify(jsonBody)
             })
-            .then((res)=>{return res.json()})
-            .then((data)=>{
-                console.log(data);
-                document.getElementById('text-area').value = data;
+            .then((res) => { return res.json() })
+            .then((data) => {
+                textArea.value = data.results;
             })
 
     }
