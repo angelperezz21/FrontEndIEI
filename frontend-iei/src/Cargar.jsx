@@ -51,9 +51,9 @@ function Cargar(){
                 <br></br>
                 <br></br>
                 <div className='gridCheckBox'>
-                    <label><input type="checkbox" id="chCV" onChange={() => {setCheckCV(document.getElementById("chCV").checked)}}></input> Comunitat Valenciana</label>
-                    <label><input type="checkbox" id="chIB" onChange={() => {setCheckIB(document.getElementById("chIB").checked)}}></input> Illes Balears</label>
-                    <label><input type="checkbox" id="chEu" onChange={() => {setCheckEu(document.getElementById("chEu").checked)}}></input> Euskadi</label>
+                    <label class="grid-element"><input type="checkbox" id="chCV" onChange={() => {setCheckCV(document.getElementById("chCV").checked)}}></input> Comunitat Valenciana</label>
+                    <label class="grid-element"><input type="checkbox" id="chIB" onChange={() => {setCheckIB(document.getElementById("chIB").checked)}}></input> Illes Balears</label>
+                    <label class="grid-element"><input type="checkbox" id="chEu" onChange={() => {setCheckEu(document.getElementById("chEu").checked)}}></input> Euskadi</label>
                 </div>
                 <br></br>
                 <div className='botones'>

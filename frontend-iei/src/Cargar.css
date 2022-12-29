@@ -1,5 +1,11 @@
 .gridCheckBox{
     display: grid;
+    grid-template-rows: auto min-content auto;
+}
+
+.grid-element{
+    grid-column: 2;
+    text-align: left;
 }
 
 .textArea2{
