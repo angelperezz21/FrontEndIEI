@@ -5,8 +5,12 @@ import MapWrapper from './MapWrapper'
 import SplitPane from 'react-split-pane';
 import ComboBox from 'react-responsive-combo-box'
 
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import {Icon, Style } from 'ol/style';
+
 function App() {
-  
+  const [features, setFeatures] = useState([])
   const [localidad, setLocalidad] = useState('');
   const [codigoPosta, setCodigoPosta] = useState(''); 
   const [provincia, setProvincia] = useState('');
@@ -16,6 +20,58 @@ function App() {
     "Hola1",
     "Hola2"
   ];
+
+  useEffect(() => {
+
+    const iconStyle = new Style({
+      image: new Icon({
+        scale: [0.1, 0.1],
+        anchor: [0.5, 1.0],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'fraction',
+        src: 'geo-alt-fill.svg',
+      }),
+    });
+
+    let iconFeatures = [];
+
+    let feature = new Feature({
+      geometry: new Point([0, 0]),
+      name: "test",
+    });
+
+    feature.setStyle(iconStyle);
+
+    iconFeatures.push(feature);
+
+    // fetch('/api/places')
+    //   .then(res => res.json())
+    //   .then(data => {
+
+    //     const lug = Object.entries(data);
+
+    //     for (var i = 0; i < lug.length; i++) {
+
+    //       //Accedemos a las coordenadas del objeto
+    //       let cord1 = parseFloat(lug[i][1].coordenadas[0]['$numberDecimal']);
+    //       let cord2 = parseFloat(lug[i][1].coordenadas[1]['$numberDecimal']);
+    //       const iconFeature2 = new Feature({
+    //         geometry: new Point([cord1, cord2]),
+    //         name: lug[i][1].nombre,
+    //       });
+
+    //       iconFeature2.setStyle(iconStyle);
+
+    //       iconFeatures.push(iconFeature2);
+    //     }
+
+    //     setFeatures(iconFeatures);
+
+    //   });
+
+    setFeatures(iconFeatures);
+
+  }, []);
 
   return (
     <div>
@@ -63,7 +119,7 @@ function App() {
         </div>
         <div className='Derecha'>
           <div className='mapa'>
-            <MapWrapper/>
+            <MapWrapper features={features}/>
           </div>
         </div>
       </SplitPane>
