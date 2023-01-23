@@ -12,13 +12,16 @@ import {Icon, Style } from 'ol/style';
 function App() {
   const [features, setFeatures] = useState([])
   const [localidad, setLocalidad] = useState('');
-  const [codigoPosta, setCodigoPosta] = useState(''); 
+  const [codigoPostal, setCodigoPostal] = useState(''); 
   const [provincia, setProvincia] = useState('');
   const [tipo, setTipo] = useState('');
+  const [centrosSanitarios, setCentrosSanitarios] = useState([]);
 
   const dataTipos = [
-    "Hola1",
-    "Hola2"
+    "Cualquiera",
+    "Hospital",
+    "Centro de salud",
+    "Otros"
   ];
 
   useEffect(() => {
@@ -73,6 +76,16 @@ function App() {
 
   }, []);
 
+  function buscarCentros(localidad, cp, provincia, tipo){
+    fetch(`http://localhost:8080/api/query/health-centers?loc=${localidad}&cp=${cp}&prov=${provincia}&tipo=${tipo}`)
+      .then((res) => { return res.json() })
+      .then(data => {
+        //MAPA
+        //En data hay un array con objetos de los hospitales. Cada uno tiene longitud y latitud como string, habra que usar parseFloat()
+        console.log(data);
+      });
+  }
+
   return (
     <div>
       <div className='titulo'>
@@ -83,21 +96,24 @@ function App() {
         <div className='Izquierda'>
           <div className='grid'>
             <label>Localidad</label>
-            <input className='inputAnyadir'
+            <input id='localidad_txt'
+            className='inputAnyadir'
             placeholder='Mislata'
             onChange={(option) => setLocalidad(option.target.value)}>
             </input>
 
             <label>Código Postal</label>
-            <input className='inputAnyadir'
+            <input id='cp_txt'
+            className='inputAnyadir'
             placeholder='13700'
-            onChange={(option) => setCodigoPosta(option.target.value)}>
+            onChange={(option) => setCodigoPostal(option.target.value)}>
             </input>
             
             <label>Provincia</label>
-            <input className='inputAnyadir'
+            <input id='provincia_txt'
+            className='inputAnyadir'
             placeholder='Valencia'
-            onChange={(option) => setCodigoPosta(option.target.value)}>
+            onChange={(option) => setProvincia(option.target.value)}>
             </input>
 
             <label>Tipo</label>
@@ -110,7 +126,12 @@ function App() {
           </div>
           <div className='divBotones'>
             <button>Cancelar</button>
-            <button>Buscar</button>
+            <button onClick={() => { buscarCentros(
+              localidad,
+              codigoPostal,
+              provincia,
+              tipo,
+            ) }}>Buscar</button>
           </div>
           <div className='divResultado'>
             <label>Resultados de la búsqueda:</label>
