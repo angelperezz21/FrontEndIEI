@@ -65,8 +65,53 @@ function MapWrapper(props) {
               
             }),
             controls: []
-          })
+        })
+        const element = document.getElementById('popup');
+    
+        const popup = new Overlay({
+            element: element,
+            positioning: 'bottom-center',
+            stopEvent: false,
+        });
+        
+        initialMap.addOverlay(popup);
 
+        let popover;
+        function disposePopover() {
+            if (popover) {
+                popover.dispose();
+                popover = undefined;
+            }
+        }
+
+        // display popup on click
+        initialMap.on('click', function (evt) {
+            const feature = initialMap.forEachFeatureAtPixel(evt.pixel, function (feature) {
+                return feature;
+            });
+            disposePopover();
+            if (!feature) {
+                return;
+            }
+            popup.setPosition(evt.coordinate);
+            popover = new bootstrap.Popover(element, {
+                placement: 'top',
+                html: true,
+                content: feature.get('name'),
+            });
+            popover.show();
+
+        });
+
+        // change mouse cursor when over marker
+        initialMap.on('pointermove', function (e) {
+            const pixel = initialMap.getEventPixel(e.originalEvent);
+            const hit = initialMap.hasFeatureAtPixel(pixel);
+            initialMap.getTarget().style.cursor = hit ? 'pointer' : '';
+        });
+
+        // Close the popup when the map is moved
+        initialMap.on('movestart', disposePopover);
 
         // save map and vector layer references to state
         setMap(initialMap)

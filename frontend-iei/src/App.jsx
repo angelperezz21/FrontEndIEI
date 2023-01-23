@@ -8,6 +8,7 @@ import ComboBox from 'react-responsive-combo-box'
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import {Icon, Style } from 'ol/style';
+import {transform} from 'ol/proj'
 
 function App() {
   const [features, setFeatures] = useState([])
@@ -24,7 +25,9 @@ function App() {
     "Otros"
   ];
 
-  useEffect(() => {
+  function buscarCentros(localidad, cp, provincia, tipo){
+    const resultados = document.getElementById('resultados_txt');
+    resultados.value = 'Buscando...';
 
     const iconStyle = new Style({
       image: new Icon({
@@ -36,53 +39,46 @@ function App() {
       }),
     });
 
-    let iconFeatures = [];
-
-    let feature = new Feature({
-      geometry: new Point([0, 0]),
-      name: "test",
-    });
-
-    feature.setStyle(iconStyle);
-
-    iconFeatures.push(feature);
-
-    // fetch('/api/places')
-    //   .then(res => res.json())
-    //   .then(data => {
-
-    //     const lug = Object.entries(data);
-
-    //     for (var i = 0; i < lug.length; i++) {
-
-    //       //Accedemos a las coordenadas del objeto
-    //       let cord1 = parseFloat(lug[i][1].coordenadas[0]['$numberDecimal']);
-    //       let cord2 = parseFloat(lug[i][1].coordenadas[1]['$numberDecimal']);
-    //       const iconFeature2 = new Feature({
-    //         geometry: new Point([cord1, cord2]),
-    //         name: lug[i][1].nombre,
-    //       });
-
-    //       iconFeature2.setStyle(iconStyle);
-
-    //       iconFeatures.push(iconFeature2);
-    //     }
-
-    //     setFeatures(iconFeatures);
-
-    //   });
-
-    setFeatures(iconFeatures);
-
-  }, []);
-
-  function buscarCentros(localidad, cp, provincia, tipo){
+    
     fetch(`http://localhost:8080/api/query/health-centers?loc=${localidad}&cp=${cp}&prov=${provincia}&tipo=${tipo}`)
       .then((res) => { return res.json() })
       .then(data => {
-        //MAPA
-        //En data hay un array con objetos de los hospitales. Cada uno tiene longitud y latitud como string, habra que usar parseFloat()
-        console.log(data);
+        //Cargar iconos en el mapa
+        const lug = Object.entries(data);
+        let iconFeatures = [];
+        for (var i = 0; i < lug.length; i++) {
+
+          //Accedemos a las coordenadas del objeto
+          let cord1 = parseFloat(lug[i][1].longitud);
+          let cord2 = parseFloat(lug[i][1].latitud);
+          const iconFeature2 = new Feature({
+            geometry: new Point(transform([cord1, cord2], 'EPSG:4326', 'EPSG:3857')),
+            name: lug[i][1].nombre,
+          });
+
+          iconFeature2.setStyle(iconStyle);
+
+          iconFeatures.push(iconFeature2);
+        }
+
+        if(iconFeatures.length == 0){
+          iconFeatures.push(new Feature());
+        }
+        setFeatures(iconFeatures);
+
+        //Dar feedback al usuario
+        const cantidadCentros = data.length;
+        let textoResultado = '';
+
+        if(cantidadCentros === 0) textoResultado += 'No se ha encontrado ningún centro sanitario';
+        else if(cantidadCentros === 1) textoResultado += 'Se ha encontrado 1 centro sanitario';
+        else textoResultado += `Se ha encontrado ${cantidadCentros} centros sanitarios`;
+        
+        for(let i = 0; i < cantidadCentros; i++){
+          textoResultado += `\n${i+1}. ${data[i].nombre}, ${data[i].localidad.nombre} (${data[i].provincia.nombre})`;
+        }
+
+        resultados.value = textoResultado;
       });
   }
 
@@ -135,12 +131,12 @@ function App() {
           </div>
           <div className='divResultado'>
             <label>Resultados de la búsqueda:</label>
-            <textarea className='textArea' readOnly></textarea>
+            <textarea id='resultados_txt' className='textArea' readOnly></textarea>
           </div>
         </div>
         <div className='Derecha'>
           <div className='mapa'>
-            <MapWrapper features={features}/>
+            <MapWrapper features={features}/><div id="popup"></div>
           </div>
         </div>
       </SplitPane>

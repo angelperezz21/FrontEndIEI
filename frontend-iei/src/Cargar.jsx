@@ -12,6 +12,21 @@ function Cargar(){
     const[checkIB, setCheckIB] = useState(false);
     const[checkEu, setCheckEu] = useState(false);
 
+    function enviarPeticionBorrado(){
+        const textArea = document.getElementById('text-area');
+
+        textArea.value = 'Borrando centros sanitarios...';
+
+        fetch('http://localhost:8080/api/load/health-centers',
+            {
+                method: 'DELETE'
+            })
+            .then((res) => { return res.json() })
+            .then((data) => {
+                textArea.value = data.results;
+            })
+    }
+
     function enviarPeticionCarga() {
         const jsonBody =
         {
@@ -57,13 +72,13 @@ function Cargar(){
                 </div>
                 <br></br>
                 <div className='botones'>
-                    <button>Borrar</button>
+                    <button onClick={() => { enviarPeticionBorrado() }}>Borrar</button>
                     <button onClick={() => { enviarPeticionCarga() }}>Cargar</button>
                 </div>
 
                 <br></br>
                 
-                <label>Resultados de la búsqueda:</label>
+                <label>Resultados de la carga:</label>
                 <div className='divResultado2'>
                     <textarea className='textArea2' readOnly id='text-area'></textarea>
                 </div>
